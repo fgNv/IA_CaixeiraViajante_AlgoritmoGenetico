@@ -1,20 +1,25 @@
 import random
-from App.Model.Edge import Edge
+from App.Model.Vector import Vector
 
-class Genesis(object):
-	def Begin(this, edges, initialPopulation):		
+def genesis(vectors, initialPopulation):
+
+	def buildSolution(vectorsInner):
+		result = []
+		def buildSolutionInner(remainingVectors):
+			if(len(remainingVectors) == 1):
+				result.append(remainingVectors[0])
+				return
+
+			nextVectorIndex = random.randrange(0, len(remainingVectors))
+			nextVector = remainingVectors[nextVectorIndex]
+			result.append(nextVector)
+			remainingVectorsNext = list(filter(lambda x : x.name != nextVector.name , remainingVectors))			
+			buildSolutionInner(remainingVectorsNext)
+
+		buildSolutionInner(vectorsInner)
+		return result
 		
-		def buildSolution(result, remainingEdges):
-			if(len(remainingEdges) == 1):
-				result.append(remainingEdges[0])
-				return result
-
-			nextEdgeIndex = random.randrange(0, len(remainingEdges))
-			nextEdge = remainingEdges[nextEdgeIndex]
-			result.append(nextEdge)
-			remainingEdgesNext = list(filter(lambda x : x.getName() != nextEdge.getName() , remainingEdges))			
-			return buildSolution(result, remainingEdgesNext)
-
-		results = [];
-		[results.append(buildSolution([], edges)) for x in range(initialPopulation)]
-		return results		
+	initialSolutions = [];
+	[initialSolutions.append(buildSolution(vectors)) for x in range(initialPopulation)]
+	return initialSolutions	
+	
