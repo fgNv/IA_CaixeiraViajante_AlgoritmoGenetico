@@ -1,0 +1,23 @@
+{
+	"populationSize" : 4,
+	"mutationRate" : 10,
+	"iterationsQuantity" : 15,
+	"graphData" :{
+		"vectors" : ["a", "b", "c", "d"],
+		"edges" : [
+			{"vectorOne" : "a", "vectorTwo" : "b", "weight" : 5},
+			{"vectorOne" : "a", "vectorTwo" : "c", "weight" : 3},
+			{"vectorOne" : "a", "vectorTwo" : "d", "weight" : 4},
+			{"vectorOne" : "b", "vectorTwo" : "c", "weight" : 7},
+			{"vectorOne" : "b", "vectorTwo" : "d", "weight" : 4},
+			{"vectorOne" : "c", "vectorTwo" : "d", "weight" : 6},
+
+			{"vectorOne" : "b", "vectorTwo" : "a", "weight" : 5},
+			{"vectorOne" : "c", "vectorTwo" : "a", "weight" : 3},
+			{"vectorOne" : "d", "vectorTwo" : "a", "weight" : 4},
+			{"vectorOne" : "c", "vectorTwo" : "b", "weight" : 7},
+			{"vectorOne" : "d", "vectorTwo" : "b", "weight" : 4},
+			{"vectorOne" : "d", "vectorTwo" : "c", "weight" : 6}
+		]
+	}
+}

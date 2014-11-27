@@ -39,7 +39,7 @@ def crossover(first,second, mutationRate):
 		for i in range(cutPoint,len(one)):
 			yield two[i]
 	
-	def sortMutation(child):
+	def raffleMutation(child):
 		if(mutationRate == 0):
 			return child
 		mutationRand = random.randrange(0,100)		
@@ -50,5 +50,5 @@ def crossover(first,second, mutationRate):
 	totalVertexes = len(first)
 	cutPoint = random.randrange(0,totalVertexes)
 
-	yield sortMutation(makeCorrections(list(generateChild(first,second,cutPoint))))	
-	yield sortMutation(makeCorrections(list(generateChild(second,first,cutPoint))))
+	yield raffleMutation(makeCorrections(list(generateChild(first,second,cutPoint))))	
+	yield raffleMutation(makeCorrections(list(generateChild(second,first,cutPoint))))

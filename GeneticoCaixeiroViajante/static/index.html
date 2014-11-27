@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Algoritmos genéticos - Caixeiro viajante</title>
+</head>
+<body>
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap.css"  />
+	<script type="text/javascript" src="/static/angular.js" ></script>
+	<script type="text/javascript" src="/static/angular-resource.js" ></script>
+	<script type="text/javascript" src="/static/LINQ_JS.js" ></script>
+	<script type="text/javascript" src="/static/app.js" ></script>
+	<script type="text/javascript" src="/static/KnowledgeResource.js" ></script>
+
+	<div style="padding: 1%">
+		<h2 style="margin: 0 0 2% 0">Algoritmos genéticos - Caixeiro viajante</h2>
+
+		<div data-ng-app="app">
+			<div data-ng-controller="CalculusController">
+				<div data-ng-show="step == 'form'">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="row">
+								<div class="col-md-10">
+									<label>
+										Tamanho da população
+										<input type="text" placeholder="weight" class="form-control" data-ng-model="request.populationSize" />
+									</label>
+								</div>	
+							</div>
+							<div class="row">
+								<div class="col-md-10">
+									<label>
+										Taxa de mutação
+										<input type="text" placeholder="weight" class="form-control" data-ng-model="request.mutationRate" />
+									</label>
+								</div>	
+							</div>
+							<div class="row">
+								<div class="col-md-10">
+									<label>
+										Quantidade de iterações
+										<input type="text" placeholder="weight" class="form-control" data-ng-model="request.iterationsQuantity" />
+									</label>
+								</div>	
+							</div>	
+						</div>
+						<div class="col-md-3">
+							<label>Vetores</label>
+							<div class="row" data-ng-repeat="vector in request.graphData.vectors">
+								<div class="col-md-5">
+									{{vector}}
+								</div>
+								<div class="col-md-5">
+									<button type="button" class="btn" data-ng-click="removeVector($index)"> Remover vetor</button>
+								</div>
+							</div>
+							<div class="row">
+								<div  class="col-md-5">								
+									<input type="text" placeholder="Nome do novo vetor" class="form-control" data-ng-model="newVector" />
+								</div>
+								<div>
+									<button type="button" class="btn" data-ng-click="addVector()"> Adicionar vetor</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label>Arestas</label>
+							<table>
+								<thead>
+									<tr>
+										<th style="width:40%">Origem</th>
+										<th style="width:40%">Destino</th>
+										<th>Peso</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-ng-repeat="edge in request.graphData.edges">
+										<td> {{edge.vectorOne}}</td>
+										<td> {{edge.vectorTwo}} </td>
+										<td>
+											<input type="text" placeholder="weight" class="form-control" data-ng-model="edge.weight" /> 
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="btn" data-ng-click="calculate()"> Calcular</button>
+						</div>
+					</div>
+					
+				</div>
+				<div data-ng-show="step == 'result'">
+					<div>			
+						<hr />
+						<button class="btn" type="button" data-ng-click="step='form'">Voltar</button>		
+						<hr />		
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

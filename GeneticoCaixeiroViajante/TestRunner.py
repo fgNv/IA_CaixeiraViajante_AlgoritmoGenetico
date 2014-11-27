@@ -1,6 +1,7 @@
 from Tests.GenesisTests import GenesisTests
 from Tests.FitnessTest import FitnessTest
 from Tests.SelectionTest import SelectionTest
+from Tests.RunnerTest import RunnerTest
 
 def runGenesisTest():
 	genesisTests = GenesisTests()
@@ -15,6 +16,11 @@ def runSelectionTest():
 	selectionTest.run()
 	selectionTest.checkDuplicates()
 
-runGenesisTest()
-runFitnessTest()
-runSelectionTest()
+def runRunnerTest():
+	runnerTest = RunnerTest()
+	runnerTest.run()
+
+#runGenesisTest()
+#runFitnessTest()
+#runSelectionTest()
+runRunnerTest()
