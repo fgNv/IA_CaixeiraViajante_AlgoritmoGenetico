@@ -13,6 +13,7 @@ app.controller("CalculusController",["$scope","KnowledgeResource",function($scop
 	};
 
 	$scope.backendRequest = {};
+	$scope.result = {};
 
 	$scope.pendingRequests = 0;	
 	$scope.step = 'form';
@@ -24,11 +25,13 @@ app.controller("CalculusController",["$scope","KnowledgeResource",function($scop
 		$scope.request.graphData.vectors.push(name);
 		$scope.newVector = '';
 		renewEdges();
+		//draw();
 	};
 
 	$scope.removeVector = function(index){
 		$scope.request.graphData.vectors.splice(index,1);
 		renewEdges();
+		//draw();
 	};
 
 	$scope.calculate = function () {
@@ -83,6 +86,29 @@ app.controller("CalculusController",["$scope","KnowledgeResource",function($scop
 			});
 
 		});
+	};
+
+	var draw = function(){	
+		var particleSystem = arbor.ParticleSystem(1000, 600, 0.5);
+		particleSystem.parameters({gravity:true});
+
+		var rendererFactory = new DataVizRendererFactory("#graph-container");
+		var myRenderer = rendererFactory.Renderer();
+		particleSystem.renderer = myRenderer;
+		
+		node1 = particleSystem.addNode("one node",{label : 'just a test'});
+		
+		var nodes = [];
+		$scope.request.graphData.vectors.forEach(function(i){
+			nodes.push(particleSystem.addNode(i,{label : i}));
+		});
+
+		$scope.request.graphData.edges.forEach(function(i){
+			node1 = nodes.first(function(node){ return node.name == i.vectorOne});
+			node2 = nodes.first(function(node){ return node.name == i.vectorTwo});
+			particleSystem.addEdge(node1, node2, {length:.75, pointSize:3, weight : 3, label : i.weight});
+		});		
+				
 	};
 
 	$scope.$watch('request.populationSize',function(val,old){

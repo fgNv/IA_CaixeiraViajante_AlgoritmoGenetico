@@ -6,6 +6,14 @@
 </head>
 <body>
 	<link rel="stylesheet" type="text/css" href="/static/bootstrap.css"  />
+
+	<script type="text/javascript" src="/static/graphDrawning/jquery.1.4.4.min.js" ></script>
+	<script type="text/javascript" src="/static/graphDrawning/jquery.address-1.3.1.min.js" ></script>
+	<script type="text/javascript" src="/static/graphDrawning/jquery.couch.js" ></script>
+	<script type="text/javascript" src="/static/graphDrawning/arbor.js" ></script>
+	<script type="text/javascript" src="/static/graphDrawning/arbor-graphics.js" ></script>
+	<script type="text/javascript" src="/static/graphDrawning/rendererFactory.js" ></script>
+
 	<script type="text/javascript" src="/static/angular.js" ></script>
 	<script type="text/javascript" src="/static/angular-resource.js" ></script>
 	<script type="text/javascript" src="/static/LINQ_JS.js" ></script>
@@ -24,15 +32,15 @@
 								<div class="col-md-10">
 									<label>
 										Tamanho da população
-										<input type="text" placeholder="weight" class="form-control" data-ng-model="request.populationSize" />
+										<input type="text" class="form-control" data-ng-model="request.populationSize" />
 									</label>
 								</div>	
 							</div>
 							<div class="row">
 								<div class="col-md-10">
 									<label>
-										Taxa de mutação
-										<input type="text" placeholder="weight" class="form-control" data-ng-model="request.mutationRate" />
+										Taxa de mutação ( 0 a 100)
+										<input type="text" class="form-control" data-ng-model="request.mutationRate" />
 									</label>
 								</div>	
 							</div>
@@ -40,7 +48,7 @@
 								<div class="col-md-10">
 									<label>
 										Quantidade de iterações
-										<input type="text" placeholder="weight" class="form-control" data-ng-model="request.iterationsQuantity" />
+										<input type="text" class="form-control" data-ng-model="request.iterationsQuantity" />
 									</label>
 								</div>	
 							</div>	
@@ -86,16 +94,57 @@
 							</table>
 						</div>
 						<div class="col-md-1">
+							<!--<canvas id="graph-container"></canvas>-->
 							<button type="button" class="btn" data-ng-click="calculate()"> Calcular</button>
 						</div>
 					</div>
 					
 				</div>
 				<div data-ng-show="step == 'result'">
-					<div>			
-						<hr />
-						<button class="btn" type="button" data-ng-click="step='form'">Voltar</button>		
-						<hr />		
+					<div class="row">		
+						<div class="col-md-5">
+							<div>
+								<h3>Melhor solução encontrada:</h3>
+								<p>Fitness = {{result.bestSolution.fitness}}</p>	
+								<p>Caminho = <span data-ng-repeat="vector in result.bestSolution.solution">{{vector.name}} -> </span> </p>
+							</div>
+							
+							<hr />
+							<button class="btn" type="button" data-ng-click="step='form'">Voltar</button>		
+							<hr />	
+
+							<h3>Histórico:</h3>
+							<div class="row" data-ng-repeat="item in result.historic">
+								<div class="col-md-5">
+									Iteração : {{item.iteration}}
+									<div class="row" style="margin-left:20px" data-ng-repeat="data in item.solutions">
+										Fitness : {{data.fitness}}
+										<p>Caminho = <span data-ng-repeat="vector in data.solution">{{vector.name}} -> </span> </p>
+									</div>
+								</div>
+							</div>	
+						</div>
+						<div class="col-md-5">
+							<div class="col-md-3">
+								<label>Arestas</label>
+								<table>
+									<thead>
+										<tr>
+											<th style="width:40%">Origem</th>
+											<th style="width:40%">Destino</th>
+											<th>Peso</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-ng-repeat="edge in request.graphData.edges">
+											<td> {{edge.vectorOne}}</td>
+											<td> {{edge.vectorTwo}} </td>
+											<td> {{edge.weight}} </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

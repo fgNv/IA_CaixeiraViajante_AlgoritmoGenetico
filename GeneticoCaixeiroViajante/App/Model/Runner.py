@@ -12,15 +12,17 @@ def run(graph, populationSize, mutationRate, iterationsQuantity):
 	solutionPopulation = list(map(lambda x: SolutionItem(x, graph), population)) 
 	bestSolution = getBestSolution(solutionPopulation)
 
-	historic = {}
+	historic = []
 
 	for i in range(0, iterationsQuantity):
-		historic.update({ i : population})
+		historic.append({ "iteration" : i, "solutions" : solutionPopulation})
 		population = selectNextGeneration(solutionPopulation, mutationRate)
 		solutionPopulation = list(map(lambda x: SolutionItem(x, graph), population)) 
 		tempBestSolution = getBestSolution(solutionPopulation)
 		if tempBestSolution.fitness < bestSolution.fitness :
 			bestSolution = tempBestSolution
+
+	historic.append({ "iteration" : i+1, "solutions" : solutionPopulation})
 
 	return {'bestSolution' : bestSolution, 'historic' : historic}
 
