@@ -2,8 +2,8 @@ from Tests.FitnessTest import FitnessTest
 from Tests.GenesisTests import printSolution
 from App.Model.Genesis import genesis
 from App.Model.SolutionItem import SolutionItem
-from App.Model.Selection import selectNextGeneration
-from App.Model.Selection import getDuplicates
+from App.Model.RoulleteSelection import roulleteSelectNextGeneration
+from App.Model.RoulleteSelection import getDuplicates
 from App.Model.Vector import Vector
 
 class SelectionTest(object):
@@ -15,7 +15,7 @@ class SelectionTest(object):
 		initialSolutions = genesis(sampleGraph.vectors, initialPopulation)
 		solutionItems = list(map(lambda i : SolutionItem(i,sampleGraph), initialSolutions))
 		print('----Selection tests-----\n')
-		nextGen = selectNextGeneration(solutionItems, 0)
+		nextGen = roulleteSelectNextGeneration(solutionItems, 0,[])
 		[printSolution(result) for result in initialSolutions]
 		print('\n')	
 		[printSolution(result) for result in nextGen]

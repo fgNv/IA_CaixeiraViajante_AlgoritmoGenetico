@@ -1,8 +1,7 @@
 from App.Model.Genesis import genesis
-from App.Model.Selection import selectNextGeneration
 from App.Model.SolutionItem import SolutionItem
 
-def run(graph, populationSize, mutationRate, iterationsQuantity):
+def run(graph, populationSize, mutationRate, iterationsQuantity, selectStrategy):
 	def getBestSolution(population):
 		minFitness = min(list(map(lambda x : x.fitness, population)))
 		items = list(filter(lambda x: x.fitness == minFitness, population))
@@ -14,9 +13,11 @@ def run(graph, populationSize, mutationRate, iterationsQuantity):
 
 	historic = []
 
-	for i in range(0, iterationsQuantity):
-		historic.append({ "iteration" : i, "solutions" : solutionPopulation})
-		population = selectNextGeneration(solutionPopulation, mutationRate)
+	for i in range(0, iterationsQuantity):				
+		crossData = []
+		population = selectStrategy(solutionPopulation, mutationRate, crossData)
+
+		historic.append({ "iteration" : i, "solutions" : solutionPopulation, "crossData" : crossData})
 		solutionPopulation = list(map(lambda x: SolutionItem(x, graph), population)) 
 		tempBestSolution = getBestSolution(solutionPopulation)
 		if tempBestSolution.fitness < bestSolution.fitness :

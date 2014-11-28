@@ -20,7 +20,7 @@ def runRunnerTest():
 	runnerTest = RunnerTest()
 	runnerTest.run()
 
-#runGenesisTest()
-#runFitnessTest()
-#runSelectionTest()
+runGenesisTest()
+runFitnessTest()
+runSelectionTest()
 runRunnerTest()

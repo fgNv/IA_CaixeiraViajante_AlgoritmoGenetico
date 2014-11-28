@@ -10,9 +10,7 @@
 	<script type="text/javascript" src="/static/graphDrawning/jquery.1.4.4.min.js" ></script>
 	<script type="text/javascript" src="/static/graphDrawning/jquery.address-1.3.1.min.js" ></script>
 	<script type="text/javascript" src="/static/graphDrawning/jquery.couch.js" ></script>
-	<script type="text/javascript" src="/static/graphDrawning/arbor.js" ></script>
-	<script type="text/javascript" src="/static/graphDrawning/arbor-graphics.js" ></script>
-	<script type="text/javascript" src="/static/graphDrawning/rendererFactory.js" ></script>
+	<script type="text/javascript" src="/static/graphDrawning/sigma.min.js" ></script>
 
 	<script type="text/javascript" src="/static/angular.js" ></script>
 	<script type="text/javascript" src="/static/angular-resource.js" ></script>
@@ -52,6 +50,27 @@
 									</label>
 								</div>	
 							</div>	
+							<div class="row">
+								<div class="col-md-10">
+									<label>Estratégia de seleção</label>
+									<div class="radio">
+										<label>
+											Simples
+											<input type="radio" 
+											value="simple"
+											data-ng-model="request.selectionStrategy"  />
+										</label>
+									</div>
+									<div class="radio">
+										<label>
+											Roleta
+											<input type="radio" 
+											value="roullete"
+											data-ng-model="request.selectionStrategy" />
+										</label>
+									</div>
+								</div>	
+							</div>	
 						</div>
 						<div class="col-md-3">
 							<label>Vetores</label>
@@ -74,7 +93,7 @@
 						</div>
 						<div class="col-md-3">
 							<label>Arestas</label>
-							<table>
+							<table class="table">
 								<thead>
 									<tr>
 										<th style="width:40%">Origem</th>
@@ -94,7 +113,8 @@
 							</table>
 						</div>
 						<div class="col-md-1">
-							<!--<canvas id="graph-container"></canvas>-->
+							 <div id="container"></div>
+							
 							<button type="button" class="btn" data-ng-click="calculate()"> Calcular</button>
 						</div>
 					</div>
@@ -115,11 +135,20 @@
 
 							<h3>Histórico:</h3>
 							<div class="row" data-ng-repeat="item in result.historic">
-								<div class="col-md-5">
+								<div class="col-md-10">
 									Iteração : {{item.iteration}}
 									<div class="row" style="margin-left:20px" data-ng-repeat="data in item.solutions">
 										Fitness : {{data.fitness}}
 										<p>Caminho = <span data-ng-repeat="vector in data.solution">{{vector.name}} -> </span> </p>
+									</div>		
+									<div class="row" style="margin-left:40px" data-ng-repeat="crossItem in item.crossData">
+										<div>Dados do crossover {{crossItem.crossNumber}}</div>
+										<div >
+											Fitness : {{crossItem.first.fitness}}
+											<p>Caminho = <span data-ng-repeat="vector in crossItem.first.solution">{{vector.name}} -> </span> </p>
+											Fitness : {{crossItem.second.fitness}}
+											<p>Caminho = <span data-ng-repeat="vector in crossItem.second.solution">{{vector.name}} -> </span> </p>
+										</div>
 									</div>
 								</div>
 							</div>	
@@ -127,7 +156,7 @@
 						<div class="col-md-5">
 							<div class="col-md-3">
 								<label>Arestas</label>
-								<table>
+								<table class="table">
 									<thead>
 										<tr>
 											<th style="width:40%">Origem</th>

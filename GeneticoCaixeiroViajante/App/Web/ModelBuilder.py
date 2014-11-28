@@ -9,6 +9,7 @@ def buildModel(json):
 	iterationsQuantity = json['iterationsQuantity']
 	vectorsNames = json['graphData']['vectors']
 	edgesData = json['graphData']['edges']
+	selectionStrategy = json['selectionStrategy']
 
 	vectors = list(map(lambda x: Vector(x) ,vectorsNames))
 	def buildEdge(data):		
@@ -20,4 +21,4 @@ def buildModel(json):
 
 	edges = list(map(buildEdge,edgesData))
 	graph = Graph(edges, vectors)
-	return RequestData(populationSize,mutationRate,iterationsQuantity,graph)
+	return RequestData(populationSize,mutationRate,iterationsQuantity,graph, selectionStrategy)

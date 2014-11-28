@@ -14,12 +14,14 @@ def getDuplicates(generation):
 			checked.append(key)
 		index = 1 + index
 
-def selectNextGeneration(currentGeneration, mutationRate):
+def roulleteSelectNextGeneration(currentGeneration, mutationRate, crossData):
+
+	maxFitness = max(map(lambda x: x.fitness, currentGeneration))
 
 	def getItemsRange():			
 		def calculateIndex(dictionary, item):
 			acummulatedIndexes = sum(dictionary.keys())
-			result = item.fitness + acummulatedIndexes
+			result = abs(item.fitness - maxFitness - 1) + acummulatedIndexes
 			return result
 
 		dic = {}
@@ -30,25 +32,39 @@ def selectNextGeneration(currentGeneration, mutationRate):
 
 	itemsRange = getItemsRange()
 	nextGeneneration = []
+	maxIndex = max(itemsRange.keys())
 	populationSize = len(currentGeneration)
 	total = reduce(lambda acc,i: acc + i.fitness, currentGeneration, 0)
 
+	currentCross = 0
 	while(len(nextGeneneration) < populationSize):
-		randomNumber = random.randrange(0, total)
+		randomNumber = random.randrange(0, maxIndex)
 		def getIndexFilter(randomValue):
-			keysGreaterThan = filter(lambda i: i > randomValue, itemsRange.keys());
+			keysGreaterThan = filter(lambda i: i >= randomValue, itemsRange.keys());
 			return min(keysGreaterThan);
 
-		oppositeRandom = abs(randomNumber - total/2)
+		oppositeRandom = randomNumber + (maxIndex/2)
+		if oppositeRandom > maxIndex:
+			oppositeRandom = oppositeRandom - maxIndex + 1
+
 		index = getIndexFilter(randomNumber)		
 		oppositeIndex = getIndexFilter(oppositeRandom)		
 		first = itemsRange[index]		
 		second = itemsRange[oppositeIndex]
-
+		
 		crossResult = crossover(list(first.solution), list(second.solution), mutationRate)
-		nextGeneneration.append(next(crossResult))
+		addedItem = next(crossResult)
+		nextGeneneration.append(addedItem)
+		addedItems = []
+		addedItems.append(addedItem)
+		
 		if(len(nextGeneneration) < populationSize):
-			nextGeneneration.append(next(crossResult))
+			addedItem = next(crossResult)
+			nextGeneneration.append(addedItem)
+			addedItems.append(addedItem)
+		
+		crossData.append({"crossNumber" : currentCross, "first" : first, "second" : second, "addedItems" : addedItems })
+		currentCross += 1
 
 	duplicatedIndexes = getDuplicates(nextGeneneration)
 	while len(list(duplicatedIndexes)) > 0:	
